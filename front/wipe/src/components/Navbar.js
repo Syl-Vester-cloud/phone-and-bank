@@ -28,10 +28,10 @@ const Navbar=({ user })=>{
           </button>
 
           <div className={isOpen ? "nav-links open" : "nav-links"}>
-            <Link to='/'>Home</Link>
-            < Link to="/phoneList">Phones</Link>
-           <Link to='/wallet'>Wallet</Link>
-           <Link to="/createAppointment">Make Appointment</Link>
+            <Link onClick={() => setIsOpen(false)}to='/'>Home</Link>
+            < Link onClick={() => setIsOpen(false)} to="/phoneList">Phones</Link>
+           <Link  onClick={() => setIsOpen(false)}to='/wallet'>Wallet</Link>
+           <Link onClick={() => setIsOpen(false)} to="/createAppointment">Make Appointment</Link>
            
         </div>
         
@@ -45,12 +45,12 @@ const Navbar=({ user })=>{
             ☰
           </button>
           <div className={isOpen ? "nav-links open" : "nav-links"}>
-            <Link to='/'>Home</Link>
-            < Link to="/phoneList">Phones</Link>
-            <Link to="/createAppointment">Make Appointment</Link>
+            <Link to='/' onClick={() => setIsOpen(false)}>Home</Link>
+            < Link onClick={() => setIsOpen(false)}to="/phoneList">Phones</Link>
+            <Link onClick={() => setIsOpen(false)} to="/createAppointment">Make Appointment</Link>
             
-            <Link to='/signup'>SignUp</Link>
-            <Link to='/Login'>Log In</Link>
+            <Link onClick={() => setIsOpen(false)} to='/signup'>SignUp</Link>
+            <Link onClick={() => setIsOpen(false)} to='/Login'>Log In</Link>
         </div>
         </>)}
       </nav>

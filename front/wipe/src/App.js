@@ -26,7 +26,7 @@ const App = () => {
     {/* Authenticated routes */}
     {user ? (
         <>     
-            <Route path="/wallet" element={<Wallet />} />
+            <Route path="/wallet" element={<Wallet user={user}/>} />
             <Route path="/account" element={<Account user={user}/>} />
         </>
     ) : (
