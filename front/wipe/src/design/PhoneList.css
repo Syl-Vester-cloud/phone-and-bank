@@ -1,0 +1,56 @@
+
+.phone-list-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .phone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .phone-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+  
+  .phone-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+  
+  .phone-card h3 {
+    margin: 10px 0;
+  }
+  
+  .phone-card p {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .phone-card button {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .phone-card button:hover {
+    background-color: darkblue;
+  }
+  
+  .order-message {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: green;
+  }
+  

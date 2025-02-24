@@ -1,0 +1,97 @@
+.home-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .hero {
+    background: linear-gradient(135deg, #4CAF50, #2E8B57);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 10px;
+  }
+  
+  .hero h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .hero p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .book-button {
+    display: inline-block;
+    background: white;
+    color: #4CAF50;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .book-button:hover {
+    background: #f1f1f1;
+  }
+  
+  .services, .shop {
+    margin-top: 30px;
+  }
+  
+  .services h2, .shop h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .service-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .service-item {
+    background: #f8f8f8;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shop-button {
+    display: inline-block;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .shop-button:hover {
+    background: #45a049;
+  }
+  
+  /* Responsive Design */
+  @media (min-width: 600px) {
+    .hero h1 {
+      font-size: 30px;
+    }
+  
+    .hero p {
+      font-size: 18px;
+    }
+  
+    .services h2, .shop h2 {
+      font-size: 24px;
+    }
+  
+    .service-item {
+      font-size: 16px;
+      padding: 15px 20px;
+    }
+  }
+  
