@@ -1,70 +1,7 @@
 
 import { useState } from "react";
 import '../design/Appointments.css'
-/*const Appointments = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
-  const handleBooking = async () => {
-    console.log("Button clicked", name, phone, date, time);
-
-    if (!name || !phone || !date || !time) {
-      setMessage("All fields are required");
-      return;
-    }
-
-    const appointmentData = { name, phone, date, time };
-
-   try {
-      setLoading(true);
-      const response = await fetch("http://192.168.1.239:8080/bookappointment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(appointmentData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage("Appointment booked successfully!");
-        setName("");
-        setPhone("");
-        setDate("");
-        setTime("");
-      } else {
-        setMessage(result.message || "Something went wrong");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setMessage("Failed to book appointment");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="appointment-container">
-      <h2>Book a Repair Appointment</h2>
-      {message && <p className="message">{message}</p>}
-      <input className="appointment-input" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} />
-      <input className="appointment-input" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
-      <label className="Date"> Date</label>
-      <input className="appointment-input" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-      <label className="time">Time</label>
-      <input className="appointment-input" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-      
-      <button onClick={handleBooking} className="appointment-button" disabled={loading}>
-        {loading ? "Booking..." : "Schedule Appointment"}
-      </button>
-    </div>
-  );
-};*/
 
 ///Test component
 

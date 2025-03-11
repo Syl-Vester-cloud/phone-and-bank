@@ -4,9 +4,10 @@ import MongoDB from './db.js'
 import AppointmentsModel from "./Model/AppointmentsModel.js";
 import AccountModel from './Model/AccountModel.js'
 import SendMail from "./SendMail.js";
+import ProductModel from "./Model/ProductModel.js";
 
 MongoDB();
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res)  => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -81,6 +82,74 @@ const server = http.createServer((req, res) => {
   });
         
     }
+
+    ///Admin Url
+    else if (req.url.startsWith('/admin') && req.method === 'POST'){
+        
+
+
+    }
+    else if (req.url.startsWith('/addProduct') && req.method === 'POST'){
+        let  payload='';
+        console.log("request made...")
+        
+        req.on("data",chunk=>(
+        payload+=chunk.toString()
+        )
+    )
+    req.on("end",async()=>{
+     let data= JSON.parse(payload)
+    
+     const {image,productName,price,quantity}=data;
+     let products=await ProductModel.create({image,productName,price,quantity})
+     if(products){
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(products));
+     }
+     else{
+        console.log("there was an error")
+     }
+     
+        //console.log(payload,"data completeley done")
+    })
+
+
+    }
+    ///Request to get the product for the admin
+    else if (req.url.startsWith('/adminProduct') && req.method === 'GET') {
+        console.log("Fetching products...");
+    
+        try {
+            // Fetch all products from the database
+            const products = await ProductModel.find();
+    
+            // Send the response with the retrieved products
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(products));
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ STOCK: products}));
+        }
+    }
+    ///Request to get a list of phones for clients
+    else if (req.url.startsWith('/phones') && req.method === 'GET') {
+        console.log("Fetching products...");
+    
+        try {
+            // Fetch all products from the database
+            const products = await ProductModel.find();
+    
+            // Send the response with the retrieved products
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(products));
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: "Error fetching products" }));
+        }
+    }
+    
    ///Login in the user
     else if (req.url.startsWith('/login') && req.method === 'POST') {
         

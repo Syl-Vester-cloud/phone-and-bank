@@ -23,7 +23,7 @@ const Home=()=> {
           <section className="shop">
             <h2>Shop Phones</h2>
             <p>Looking for a new phone? Check out our collection!</p>
-            <Link to="/shop" className="shop-button">Browse Phones</Link>
+            <Link to="/phoneList" className="shop-button">Browse Phones</Link>
           </section>
         </div>
       );

@@ -48,7 +48,7 @@ const Navbar=({ user })=>{
             <Link to='/' onClick={() => setIsOpen(false)}>Home</Link>
             < Link onClick={() => setIsOpen(false)}to="/phoneList">Phones</Link>
             <Link onClick={() => setIsOpen(false)} to="/createAppointment">Make Appointment</Link>
-            
+            <Link  onClick={()=>setIsOpen(false)} to="/admin">Admin</Link>
             <Link onClick={() => setIsOpen(false)} to='/signup'>SignUp</Link>
             <Link onClick={() => setIsOpen(false)} to='/Login'>Log In</Link>
         </div>

@@ -8,6 +8,7 @@ import Wallet from "./components/Wallet";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Account from "./components/Account";
+import Admin from "./components/Admin";
 const App = () => { 
     const [user,setUser]=useState(null)
     console.log('app.js',user)
@@ -23,6 +24,7 @@ const App = () => {
     <Route index element={<Home />} />
     <Route path="/createAppointment" element={<Appointments />} />
        <Route path="/phoneList" element={<PhoneList />} />
+       <Route path="/admin" element={<Admin/>}/>
     {/* Authenticated routes */}
     {user ? (
         <>     
