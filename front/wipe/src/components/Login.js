@@ -26,6 +26,9 @@ import {useNavigate} from 'react-router-dom'
           console.log(data)
           console.log(data.message)
           setUser(data)
+          setMessage("Login successful! 🎉");
+         setEmail("");
+         setPassword("");
          navigate('/account',{state:data})
         }else{
           setMessage("Incorrect Password or Username/Email");
@@ -35,9 +38,7 @@ import {useNavigate} from 'react-router-dom'
       .catch((Error)=>{
      console.log('Error Occured',Error)
       })
-      setMessage("Login successful! 🎉");
-      setEmail("");
-      setPassword("");
+      
     } else {
       setMessage("Please fill in all fields.");
     }
@@ -68,4 +69,4 @@ import {useNavigate} from 'react-router-dom'
     </div>
   );
 }
-export default Login;
+export default Login; 

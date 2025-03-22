@@ -4,14 +4,19 @@
     import { useNavigate } from "react-router-dom";
     import '../design/Account.css'
     
-    const Account = () => {
+    const Account = ({handleLogout}) => {
         console.log('User Account Dashboard')
+        const [thisUser,setUSer]=useState(null)
         const location = useLocation();
-        const user=location.state
+        let nagigate=useNavigate()
+        
+        let user=location.state
         console.log(user,'User Account from login')
         // Logout function
-        let handleLogout=()=>{
-            console.log('Log Out')
+      let handleLogoutAndRedirect=()=>{
+           
+            handleLogout();
+            nagigate("/")
         }
         return (
             
@@ -29,7 +34,7 @@
                         <p>{user.email}</p>
                     </div>
 
-                    <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                    <button className="logout-btn" onClick={handleLogoutAndRedirect}>Logout</button>
                 </>
             ) : (
                 <p>Loading account information...</p>

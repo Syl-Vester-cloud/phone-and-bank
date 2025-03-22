@@ -1,9 +1,10 @@
+
 import { useState } from "react";
-import "../design/Admin.css";
+import "../Admin.css";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 
-export default function AdminStockManagement() {
+export default function Admin() {
  const [stock, setStock] = useState([]);
   const navigate=useNavigate()
   const [productData, setProductData] = useState({ id: null, name: "", quantity: "", image: "" ,price:""});
@@ -51,6 +52,7 @@ export default function AdminStockManagement() {
   };
 ///The function to update the product 
   const updateProduct = () => {
+    
     fetch(`http://localhost:8080/updateProduct/${productData.id}`, {
       method: "PUT",
       headers: {
@@ -68,11 +70,14 @@ export default function AdminStockManagement() {
 
   //Request to delete the product from the DB.
   const deleteProduct = (id) => {
-    fetch(`http://localhost:8080/deleteProduct/${id}`, {
+    console.log(id,"the id")
+    fetch(`http://localhost:8080/adminDelete/${id}`, {
       method: "DELETE",
     })
-    .then(() => {
-      setStock(stock.filter(item => item.id !== id));
+    .then(data => {
+      console.log(data,'old is new')
+      
+      setStock(oldStock=>[...oldStock, { id: data.id, ...data }]);
     })
     .catch(error => console.error('Error:', error));
   };
@@ -119,7 +124,7 @@ export default function AdminStockManagement() {
               <td>{item.image && <img style={{ width: "200px", height: "150px" }} src={item.image} alt={item.productName} className="product-image" />}</td>
               <td>
                 <button className="admin-button" onClick={() => { setProductData(item); setEditMode(true); setModalOpen(true); }}>Edit</button>
-                <button className="admin-button delete" onClick={() => deleteProduct(item.id)}>Delete</button>
+                <button className="admin-button delete" onClick={() => deleteProduct(item._id)}>Delete</button>
               </td>
             </tr>
           ))}

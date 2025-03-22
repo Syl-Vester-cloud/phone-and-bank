@@ -16,9 +16,10 @@ const Appointments = () => {
     if (!name || !phone || !date || !time) {
       setMessage({ text: "Please fill in all fields.", type: "error" });
       return;
-    }
-
-    fetch("http://192.168.12.125:8080/bookappointment", {
+    } 
+    //http:///
+   // 192.168.12.125
+    fetch("http://lacalhost:8080/bookappointment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

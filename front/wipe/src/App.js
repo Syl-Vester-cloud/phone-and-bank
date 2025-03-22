@@ -8,11 +8,17 @@ import Wallet from "./components/Wallet";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Account from "./components/Account";
-import Admin from "./components/Admin";
+
 const App = () => { 
-    const [user,setUser]=useState(null)
+  
+    const [user,setUser]=useState("")
     console.log('app.js',user)
-        
+    let handleLogout=()=>{
+        setUser("")
+    }
+    useEffect(() => {
+        console.log("app.js after logout:", user);
+      }, [user]); 
     return ( 
         <BrowserRouter>
        <Navbar  user={user} setUser={setUser}/>
@@ -24,12 +30,12 @@ const App = () => {
     <Route index element={<Home />} />
     <Route path="/createAppointment" element={<Appointments />} />
        <Route path="/phoneList" element={<PhoneList />} />
-       <Route path="/admin" element={<Admin/>}/>
+       
     {/* Authenticated routes */}
     {user ? (
         <>     
             <Route path="/wallet" element={<Wallet user={user}/>} />
-            <Route path="/account" element={<Account user={user}/>} />
+            <Route path="/account" element={<Account handleLogout={handleLogout} user={user}/>} />
         </>
     ) : (
         <>

@@ -10,6 +10,7 @@ const Navbar=({ user })=>{
     const AccountIcon = ({ size = "large", color = "primary" }) => {
       return <AccountCircleIcon fontSize={size} color={color} />;
     };
+
     console.log(user,'user in navbar')
     let navigate=useNavigate()
     let accountButton=()=>{
@@ -21,7 +22,7 @@ const Navbar=({ user })=>{
         {user?(
          
             <>
-          <h1>Phone Repair Service</h1>
+          <h1>Swipe</h1>
           <AccountCircleIcon onClick={accountButton} ></AccountCircleIcon>
           <button onClick={() => setIsOpen(!isOpen)} className="menu-button">
             ☰
@@ -40,7 +41,7 @@ const Navbar=({ user })=>{
           
         ):(
           <>
-          <h1>Phone Repair Service</h1>
+          <h1>Swipe</h1>
           <button onClick={() => setIsOpen(!isOpen)} className="menu-button">
             ☰
           </button>
@@ -48,7 +49,6 @@ const Navbar=({ user })=>{
             <Link to='/' onClick={() => setIsOpen(false)}>Home</Link>
             < Link onClick={() => setIsOpen(false)}to="/phoneList">Phones</Link>
             <Link onClick={() => setIsOpen(false)} to="/createAppointment">Make Appointment</Link>
-            <Link  onClick={()=>setIsOpen(false)} to="/admin">Admin</Link>
             <Link onClick={() => setIsOpen(false)} to='/signup'>SignUp</Link>
             <Link onClick={() => setIsOpen(false)} to='/Login'>Log In</Link>
         </div>

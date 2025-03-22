@@ -5,9 +5,14 @@ import AppointmentsModel from "./Model/AppointmentsModel.js";
 import AccountModel from './Model/AccountModel.js'
 import SendMail from "./SendMail.js";
 import ProductModel from "./Model/ProductModel.js";
+import { ObjectId } from "mongodb";
+import jwt from "jsonwebtoken"
+import TokenModel from "./Model/TokenModel.js";
+
 
 MongoDB();
 const server = http.createServer(async (req, res)  => {
+    
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -59,9 +64,9 @@ const server = http.createServer(async (req, res)  => {
     req.on("end", async() => {
         let user=JSON.parse(payload)
        console.log('registeruing user',user.email)
-       let {name,email,password}=user;
-      let newUser= await AccountModel.create({name,email,password})
-      // let existingUser=AccountModel.findOne({thisemail})
+       let {name,email,password,number}=user;
+      let newUser= await AccountModel.create({name,email,password,number})
+       let existingUser=AccountModel.findOne({thisemail})
        console.log(newUser,'the user from the db')
        
     if (existingUser) {
@@ -132,6 +137,46 @@ const server = http.createServer(async (req, res)  => {
             res.end(JSON.stringify({ STOCK: products}));
         }
     }
+    //Admin to delete the product
+    else if (req.url.startsWith('/adminDelete') && req.method === 'DELETE') {
+        console.log("deleting  product...");
+    
+        try {
+            // Fetch all products from the database
+            req.on("data",chunk=>{
+          let payload =chunk
+
+            })
+            req.on("end",async()=>{
+                const urlParts = req.url.split('/');
+                if (urlParts[1] === 'adminDelete' && urlParts[2]) {
+                    const id = urlParts[2]; 
+                 console.log(id,'the extracted id....')
+                const deleted = await ProductModel.deleteOne({_id:new ObjectId(id)});
+               
+                console.log(deleted.deletedCount,"count")
+                if(deleted.deletedCount==1){
+                    const products=await ProductModel.find()
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(products));
+                }
+                else{
+                    console.log("There was an error")
+                }
+                
+                }
+            })
+            
+            
+    
+            // Send the response with the retrieved products
+            
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ STOCK: products}));
+        }
+    }
     ///Request to get a list of phones for clients
     else if (req.url.startsWith('/phones') && req.method === 'GET') {
         console.log("Fetching products...");
@@ -151,6 +196,7 @@ const server = http.createServer(async (req, res)  => {
     }
     
    ///Login in the user
+
     else if (req.url.startsWith('/login') && req.method === 'POST') {
         
         let payload=''
@@ -167,9 +213,14 @@ const server = http.createServer(async (req, res)  => {
             if(existingUser){
                 const {name,email,_id}=existingUser
                 let user=JSON.stringify({name,email,_id})
-                console.log(user,'this user')
+                console.log(user,'this user',existingUser)
+                let userId=JSON.parse(user)
+                let user_id=userId._id
+                console.log(user_id,'id extrcee')
+         const token = jwt.sign({ id: user._id, name }, String(process.env.SECRET_KEY), { expiresIn: '1h' });
+            let token__model= await TokenModel.create({user_id,token})
             res.writeHead(200, { 'Content-Type': 'application/json' })
-            res.end(JSON.stringify({name,email,_id}))
+            res.end(JSON.stringify({name,email,_id,token}))
            
             }
             else{
@@ -186,11 +237,24 @@ const server = http.createServer(async (req, res)  => {
         res.end(JSON.stringify({ message: "Route Not Found" }));
     }
 });
+////Auth tokens 
+const generateTokens = (userId) => {
+    const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
+  
+    return { accessToken, refreshToken };
+  };
+  const generateAccessToken = (userId) => {
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
+  };
 
+ 
 server.on('error',(error)=>{
 console.log(error.message)
 })
+console.log('JWT Secret Key:', process.env.JWT_SECRET);
 server.listen(8080, () => {
     console.log('Server running on port 8080');
+
 });
 
