@@ -20,10 +20,11 @@ const server = http.createServer(async (req, res)  => {
     console.log("seccess")
     
     ///Code for running frontened served by node.js
+    const allowOrigins='http://192.168.12.242:3000'
     
     if (req.method === 'OPTIONS') {
         
-        res.writeHead(204,{'Access-Control-Allow-Origin':'http://localhost:3000',
+        res.writeHead(204,{'Access-Control-Allow-Origin':allowOrigins,
             'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
            'Access-Control-Allow-Headers': 'Content-Type',
            "Access-Control-Allow-Credentials": "true"
@@ -125,7 +126,11 @@ const server = http.createServer(async (req, res)  => {
      const {image,productName,price,quantity}=data;
      let products=await ProductModel.create({image,productName,price,quantity})
      if(products){
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(200, {
+            "Access-Control-Allow-Origin": 'http://localhost:3000', // ✅ MUST match frontend URL
+            "Access-Control-Allow-Credentials": "true", // ✅ REQUIRED for cookies
+            "Content-Type": "application/json"
+        });
         res.end(JSON.stringify(products));
      }
      else{
@@ -203,7 +208,11 @@ const server = http.createServer(async (req, res)  => {
             const products = await ProductModel.find();
     
             // Send the response with the retrieved products
-            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.writeHead(200, {
+                "Access-Control-Allow-Origin": 'http://192.168.12.242:3000', // ✅ MUST match frontend URL
+                "Access-Control-Allow-Credentials": "true", // ✅ REQUIRED for cookies
+                "Content-Type": "application/json"
+            });
             res.end(JSON.stringify(products));
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -237,7 +246,7 @@ const server = http.createServer(async (req, res)  => {
            const token = jwt.sign({ id: user._id, name }, String(process.env.SECRET_KEY), { expiresIn: '2m' });
             let token__model= await TokenModel.create({user_id,token})
             res.writeHead(200, {
-                "Access-Control-Allow-Origin": 'http://localhost:3000', // ✅ MUST match frontend URL
+                "Access-Control-Allow-Origin": allowOrigins, // ✅ MUST match frontend URL
                 "Access-Control-Allow-Credentials": "true", // ✅ REQUIRED for cookies
                 "Set-Cookie": `token=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=3600`,
                 "Content-Type": "application/json"

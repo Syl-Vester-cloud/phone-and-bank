@@ -8,6 +8,7 @@ import Wallet from "./components/Wallet";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Account from "./components/Account";
+import Order from "./components/Order";
 
 const App = () => { 
   
@@ -30,12 +31,14 @@ const App = () => {
     <Route index element={<Home />} />
     <Route path="/createAppointment" element={<Appointments />} />
        <Route path="/phoneList" element={<PhoneList />} />
+       <Route path="/order" element={<Order />}/>
        
     {/* Authenticated routes */}
     {user ? (
         <>     
             <Route path="/wallet" element={<Wallet user={user}/>} />
             <Route path="/account" element={<Account handleLogout={handleLogout} user={user}/>} />
+            
         </>
     ) : (
         <>

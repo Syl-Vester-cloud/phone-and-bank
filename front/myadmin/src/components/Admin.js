@@ -13,7 +13,7 @@ export default function Admin() {
 
   //This is the request to get products from the DB.
   useEffect(()=>{
-    fetch('http://localhost:8080/adminProducts')
+    fetch('http://localhost/adminProducts')
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -31,7 +31,7 @@ export default function Admin() {
   const addProduct = () => {
      console.log(productData)
      
-    fetch('http://localhost:8080/addProduct', {
+    fetch('http://localhost/addProduct', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

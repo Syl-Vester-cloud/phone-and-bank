@@ -12,7 +12,7 @@ import {useNavigate} from 'react-router-dom'
 
   const handleLogin = () => {
     if (email && password) {
-      fetch('http://localhost/login',{
+      fetch('http://192.168.12.242/login',{
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import "../design/PhoneList.css";
+import { useNavigate } from "react-router-dom";
 
 /*const phones = [
   { id: 1, name: "iPhone 14", price: 999, image: "https://via.placeholder.com/150" },
@@ -11,17 +12,19 @@ import "../design/PhoneList.css";
 export default function PhoneList() {
   const [selectedPhone, setSelectedPhone] = useState(null);
   const [phones,setPhones]=useState([])
+  let navigate=useNavigate()
 
   const handleOrder = (phone) => {
     setSelectedPhone(phone);
-    alert(`You have selected ${phone.name}. Proceed to checkout.`);
+    //I need to handle the order  here.
+    navigate("/order")
   };
   console.log("phones component")
   useEffect(()=>{
 
     async function fetchPhones() {
       try {
-        const response =  await fetch('http://swipe-ai.co/phones');
+        const response =  await fetch('http://192.168.12.242/phones');
         
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -52,7 +55,7 @@ export default function PhoneList() {
           <div key={phone.id} className="phone-card">
             <img src={phone.image} alt={phone.productName} />
             <h3>{phone.productName}</h3>
-            <p>${phone.price}</p>
+            <p>K {phone.price}</p>
             <button onClick={() => handleOrder(phone)}>Order Now</button>
           </div>
         ))}
