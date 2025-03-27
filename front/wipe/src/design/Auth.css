@@ -26,7 +26,7 @@ body {
   
   /* Input Fields */
   .auth-input {
-    width: 100%;
+    width: 80%;
     padding: 12px;
     margin: 10px 0;
     border: 1px solid #ddd;
@@ -37,7 +37,7 @@ body {
   
   /* Button */
   .auth-button {
-    width: 100%;
+    width: 80%;
     padding: 12px;
     background-color: #007bff;
     color: white;
@@ -66,7 +66,7 @@ body {
   /* Mobile Responsiveness */
   @media (max-width: 768px) {
     .auth-container {
-      width: 90%;
+      width: 80%;
       padding: 15px;
     }
   
@@ -75,13 +75,13 @@ body {
     }
   
     .auth-input, .auth-button {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
   
   @media (max-width: 480px) {
     .auth-container {
-      width: 95%;
+      width: 80%;
       padding: 10px;
     }
   
@@ -90,7 +90,7 @@ body {
     }
   
     .auth-input, .auth-button {
-      font-size: 12px;
+      font-size: 16px;
       padding: 10px;
     }
   }

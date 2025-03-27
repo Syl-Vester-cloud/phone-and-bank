@@ -16,7 +16,7 @@ const SignUp=()=> {
     console.log('Signin up')
     console.log(number) 
     if (name && email && password&&number) {
-      fetch('http://localhost:8080/signup',{
+      fetch('http://localhost/signup',{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,10 +29,12 @@ const SignUp=()=> {
       ).catch((Error)=>{
      console.log('Error Occured',Error)
       })
-      setMessage("Account created successfully! 🎉");
+      setMessage("Account created successfully you can now go to LOG IN! 🎉");
       setName("");
       setEmail("");
       setPassword("");
+      setNotmatch("")
+      setNumber("")
       
     } else {
       setMessage("Please fill in all fields.");
@@ -54,6 +56,7 @@ const SignUp=()=> {
   return (
     <div className="auth-container">
       <h2>Sign Up</h2>
+      {message && <p className="auth-message">{message}</p>}
       <small>{notmatch&&<p style={{color:'red'}}>{notmatch}</p>}</small>
       <input
         type="text"
@@ -93,7 +96,7 @@ const SignUp=()=> {
       <button onClick={handleSignup} className="auth-button">
         Sign Up
       </button>
-      {message && <p className="auth-message">{message}</p>}
+      
     </div>
   );
 }

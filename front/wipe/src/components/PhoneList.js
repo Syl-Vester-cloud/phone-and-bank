@@ -16,12 +16,12 @@ export default function PhoneList() {
     setSelectedPhone(phone);
     alert(`You have selected ${phone.name}. Proceed to checkout.`);
   };
-  
+  console.log("phones component")
   useEffect(()=>{
 
     async function fetchPhones() {
       try {
-        const response =  await fetch('http://localhost:8080/phones');
+        const response =  await fetch('http://swipe-ai.co/phones');
         
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

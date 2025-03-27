@@ -19,7 +19,7 @@ const Appointments = () => {
     } 
     //http:///
    // 192.168.12.125
-    fetch("http://lacalhost:8080/bookappointment", {
+    fetch("http://localhost:80/bookappointment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

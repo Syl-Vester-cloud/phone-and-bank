@@ -12,12 +12,13 @@ import {useNavigate} from 'react-router-dom'
 
   const handleLogin = () => {
     if (email && password) {
-      fetch('http://localhost:8080/login',{
+      fetch('http://localhost/login',{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({  email, password})
+        body: JSON.stringify({  email, password}),
+        credentials: "include" 
 
       }).then(response=>response.json()
       ).then((data)=>{

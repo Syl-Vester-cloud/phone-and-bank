@@ -1,5 +1,9 @@
 
 import http from "http";
+import path from "path"
+import fs from "fs"
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import MongoDB from './db.js'
 import AppointmentsModel from "./Model/AppointmentsModel.js";
 import AccountModel from './Model/AccountModel.js'
@@ -10,20 +14,26 @@ import jwt from "jsonwebtoken"
 import TokenModel from "./Model/TokenModel.js";
 
 
+
 MongoDB();
 const server = http.createServer(async (req, res)  => {
+    console.log("seccess")
     
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+    ///Code for running frontened served by node.js
+    
     if (req.method === 'OPTIONS') {
-        res.writeHead(204);
+        
+        res.writeHead(204,{'Access-Control-Allow-Origin':'http://localhost:3000',
+            'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
+           'Access-Control-Allow-Headers': 'Content-Type',
+           "Access-Control-Allow-Credentials": "true"
+        });
         res.end();
         return;
     }
 
     if (req.url === '/bookappointment' && req.method === 'POST') {
+        console.log("inside appointment")
     
         let payload=''
         let appointment=''
@@ -48,7 +58,14 @@ const server = http.createServer(async (req, res)  => {
           
         });
     } 
-
+    console.log("Request URL:", req.url);
+     console.log("Request Method:", req.method); 
+    if (req.url.startsWith("/test") && req.method === 'POST') {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("Server is working!");
+        return;
+    } 
+    
    
      // Creating a new user to our system
     else if (req.url.startsWith('/signup') && req.method === 'POST') {
@@ -198,7 +215,7 @@ const server = http.createServer(async (req, res)  => {
    ///Login in the user
 
     else if (req.url.startsWith('/login') && req.method === 'POST') {
-        
+         console.log("log in")
         let payload=''
         
          req.on("data", chunk => (
@@ -217,10 +234,15 @@ const server = http.createServer(async (req, res)  => {
                 let userId=JSON.parse(user)
                 let user_id=userId._id
                 console.log(user_id,'id extrcee')
-         const token = jwt.sign({ id: user._id, name }, String(process.env.SECRET_KEY), { expiresIn: '1h' });
+           const token = jwt.sign({ id: user._id, name }, String(process.env.SECRET_KEY), { expiresIn: '2m' });
             let token__model= await TokenModel.create({user_id,token})
-            res.writeHead(200, { 'Content-Type': 'application/json' })
-            res.end(JSON.stringify({name,email,_id,token}))
+            res.writeHead(200, {
+                "Access-Control-Allow-Origin": 'http://localhost:3000', // ✅ MUST match frontend URL
+                "Access-Control-Allow-Credentials": "true", // ✅ REQUIRED for cookies
+                "Set-Cookie": `token=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=3600`,
+                "Content-Type": "application/json"
+            });
+            res.end(JSON.stringify({name,email,_id}))
            
             }
             else{
@@ -233,28 +255,55 @@ const server = http.createServer(async (req, res)  => {
     } 
 
     else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: "Route Not Found" }));
+        
+    console.log("handling static files....")
+   const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  let buildPath = path.resolve(__dirname, "../front/wipe/");
+  let filePath = path.join(buildPath, "build", req.url === "/" ? "index.html" : req.url);
+
+// Set correct content type based on file extension
+const extname = path.extname(filePath);
+let contentType = "text/html";
+console.log(`Requested URL: ${req.url}`);  // Log the URL being requested
+console.log(`Serving file: ${filePath}`);
+
+switch (extname) {
+  case ".js": contentType = "text/javascript"; break;
+  case ".css": contentType = "text/css"; break;
+  case ".json": contentType = "application/json"; break;
+  case ".png": contentType = "image/png"; break;
+  case ".jpg": contentType = "image/jpeg"; break;
+}
+if (filePath) {
+  fs.readFile(filePath, (err, content) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found dear');
+      } else {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(`Server Error: ${err.code}`);
+      }
+    } else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content);
     }
+  });
+  return; // Prevent further execution of the code.
+}
+}
 });
 ////Auth tokens 
-const generateTokens = (userId) => {
-    const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
-    const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
-  
-    return { accessToken, refreshToken };
-  };
-  const generateAccessToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
-  };
 
+  
  
 server.on('error',(error)=>{
 console.log(error.message)
 })
 console.log('JWT Secret Key:', process.env.JWT_SECRET);
-server.listen(8080, () => {
-    console.log('Server running on port 8080');
+server.listen(80, '0.0.0.0',() => {
+    console.log('Server running on port 80');
 
 });
 
